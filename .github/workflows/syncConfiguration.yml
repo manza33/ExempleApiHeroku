@@ -1,9 +1,11 @@
+name: Config
+
 on:
   push:
     branches:
       - 'master'
     paths:
-      - 'appsettings.json'
+      - './src/Catalog/Api/appsettings.json'
 
 jobs:
   syncconfig:
