@@ -1,0 +1,22 @@
+﻿name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - release/*
+
+jobs:
+  build_catalog:
+    runs-on: ubuntu-16.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build and deploy the Docker image of Catalog
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }} # Variable ajouté dans github
+          APP_NAME: ${{ 'exempleapi-heroku' }} # Nom de l'application heroku
+        run: |
+          cd ./src/Catalog 
+          docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+          heroku container:push web -a $APP_NAME
+          heroku container:release web -a $APP_NAME
