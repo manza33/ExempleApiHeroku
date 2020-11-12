@@ -3,7 +3,7 @@ name: Config
 on:
   push:
     branches:
-      - 'master'
+      - master
     paths:
       - './src/Catalog/Api/appsettings.json'
 
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: azure/appconfiguration-sync@v1
+      - uses: Azure/AppConfiguration-Sync@v1.1.1
         with:
           configurationFile: 'appsettings.json'
           format: 'json'
