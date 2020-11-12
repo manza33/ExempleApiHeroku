@@ -1,15 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace Catalog.Api
 {
@@ -25,7 +23,23 @@ namespace Catalog.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers();         
+            
+
+            services.AddSwaggerGen(
+                c => {
+                    c.SwaggerDoc("v1", new OpenApiInfo
+                    {
+                        Title = "Catalog.Api",
+                        Version = "v1"
+                    });
+                    //c.IncludeXmlComments($"{ Assembly.GetExecutingAssembly().GetName().Name }.xml");
+                    c.IncludeXmlComments(Path.Combine(
+                        AppContext.BaseDirectory,
+                        $"{ Assembly.GetExecutingAssembly().GetName().Name }.xml"
+                    ));
+                }
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,7 +50,15 @@ namespace Catalog.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            app.UseSwagger();
+            app.UseSwaggerUI(
+                c =>
+                {
+                    c.SwaggerEndpoint("v1/swagger.json", "Catalog Api v1");
+                }
+            );
+
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -46,6 +68,8 @@ namespace Catalog.Api
             {
                 endpoints.MapControllers();
             });
+
+            
         }
     }
 }

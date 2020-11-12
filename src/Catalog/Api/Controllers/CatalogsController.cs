@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,7 +8,6 @@ namespace Catalog.Api.Controllers
     [Route("[controller]")]
     public class CatalogsController : ControllerBase
     {
-        
         private readonly ILogger<CatalogsController> _logger;
 
         public CatalogsController(ILogger<CatalogsController> logger)
@@ -20,9 +16,13 @@ namespace Catalog.Api.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public string Get()
         {
             return "Hello! Api started!!!";
         }
     }
 }
+
+
