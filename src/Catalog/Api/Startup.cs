@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Catalog.Domain.Interfaces;
+using Catalog.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,8 +25,12 @@ namespace Catalog.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();         
-            
+            services.AddControllers();
+
+            // Définition de l'injection (ICatalog correspond a CatalogRepo)
+            services.AddTransient<ICatalogRepository>(service => new CatalogRepository(
+                Configuration.GetConnectionString("TripInNatura")                
+            ));
 
             services.AddSwaggerGen(
                 c => {
