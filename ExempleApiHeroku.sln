@@ -10,15 +10,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{0736
 		src\Catalog\Dockerfile = src\Catalog\Dockerfile
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Domain", "src\Catalog\Domain\Catalog.Domain.csproj", "{1D9DD02C-615C-4CAE-B324-8515EBF59A3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Domain", "src\Catalog\Domain\Catalog.Domain.csproj", "{1D9DD02C-615C-4CAE-B324-8515EBF59A3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Infrastructure", "src\Catalog\Infrastructure\Catalog.Infrastructure.csproj", "{9B98E3D0-D0F3-420F-A849-1C4C1D403F5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Infrastructure", "src\Catalog\Infrastructure\Catalog.Infrastructure.csproj", "{9B98E3D0-D0F3-420F-A849-1C4C1D403F5D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Api", "src\Catalog\Api\Catalog.Api.csproj", "{E9F2F1DB-D202-4BFA-9A45-C514320E91D8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{0F03940B-F951-4997-A822-459E6E6481C2}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\main.yml = .github\workflows\main.yml
+		.github\workflows\syncConfiguration.yml = .github\workflows\syncConfiguration.yml
 	EndProjectSection
 EndProject
 Global
