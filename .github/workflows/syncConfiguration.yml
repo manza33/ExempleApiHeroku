@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - './src/Catalog/Api/appsettings.json'
+      - 'appsettings.json'
 
 jobs:
   syncconfig:
