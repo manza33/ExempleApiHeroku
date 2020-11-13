@@ -23,6 +23,7 @@ namespace Catalog.Api
         //    WebHostEnvironment = webHostEnvironment;
         //}
 
+
         public Startup(IWebHostEnvironment webHostEnvironment)
         {
             var builder = new ConfigurationBuilder()
@@ -45,6 +46,7 @@ namespace Catalog.Api
 
         private string GetHerokuConnectionString(string connectionString)
         {
+
             string connectionUrl = WebHostEnvironment.IsDevelopment()
                 ? Configuration.GetConnectionString("ExempleApiHeroku")
                 : Environment.GetEnvironmentVariable(connectionString);
@@ -68,8 +70,10 @@ namespace Catalog.Api
             // Définition de l'injection (ICatalog correspond a CatalogRepo)
             services.AddTransient<ICatalogRepository>(service => new CatalogRepository(
                 //Configuration.GetConnectionString("ExempleApiHeroku")
-                GetHerokuConnectionString("CONNECTION_STRING")               
+                GetHerokuConnectionString("CONNECTION_STRING")                
+
             ));
+
 
             services.AddSwaggerGen(
                 c => {
@@ -88,12 +92,16 @@ namespace Catalog.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            logger.LogInformation($"Variable : {GetHerokuConnectionString("CONNECTION_STRING")}");
 
             app.UseSwagger();
             app.UseSwaggerUI(
