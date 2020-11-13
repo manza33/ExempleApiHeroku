@@ -59,7 +59,7 @@ namespace Catalog.Api
         {
             services.AddControllers();
 
-            var dbUrl = GetHerokuConnectionString("DATABASE_URL");
+            var dbUrl = GetHerokuConnectionString("ENV_DATABASE_URL");
             // Définition de l'injection (ICatalog correspond a CatalogRepo)
             services.AddTransient<ICatalogRepository>(service => new CatalogRepository(
             //Configuration.GetConnectionString("ExempleApiHeroku")

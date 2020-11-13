@@ -1,5 +1,6 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
-ENV DATABASE_URL
+ARG DATABASE_URL
+ENV ENV_DATABASE_URL = $DATABASE_URL
 
 WORKDIR /app
 

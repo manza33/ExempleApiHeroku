@@ -18,5 +18,5 @@ jobs:
         run: |
           cd ./src/Catalog 
           docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-          heroku container:push web -a $APP_NAME --recursive --env DATABASE_URL=${{ secrets.DATABASE_URL }}
+          heroku container:push web -a $APP_NAME --arg DATABASE_URL=${{ secrets.DATABASE_URL }}
           heroku container:release web -a $APP_NAME
