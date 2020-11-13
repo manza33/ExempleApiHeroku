@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
-ARG CONNECTION_STRING
+ARG CONNECTION_STRING = "Coucou";
 WORKDIR /app
 COPY ["Api/Catalog.Api.xml", "./"]
 
