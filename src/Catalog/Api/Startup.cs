@@ -29,7 +29,7 @@ namespace Catalog.Api
 
             // Définition de l'injection (ICatalog correspond a CatalogRepo)
             services.AddTransient<ICatalogRepository>(service => new CatalogRepository(
-                Configuration.GetConnectionString("TripInNatura")                
+                Configuration.GetConnectionString("ExempleApiHeroku")                
             ));
 
             services.AddSwaggerGen(
