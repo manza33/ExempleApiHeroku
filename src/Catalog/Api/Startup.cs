@@ -40,18 +40,18 @@ namespace Catalog.Api
 
         private string GetHerokuConnectionString(string connectionString)
         {
-            string connectionUrl = Environment.GetEnvironmentVariable(connectionString);
-            return connectionUrl;
-
+            //string connectionUrl = Environment.GetEnvironmentVariable(connectionString);
             //string connectionUrl = Env.IsDevelopment()
             //    ? Configuration.GetConnectionString("ExempleApiHeroku")
             //    : Environment.GetEnvironmentVariable(connectionString);
-            //var databaseUri = new Uri(connectionUrl);
+            
+            var databaseUri = new Uri(Environment.GetEnvironmentVariable(connectionString));
 
-            //string db = databaseUri.LocalPath.TrimStart('/');
-            //string[] userInfo = databaseUri.UserInfo.Split(':', StringSplitOptions.RemoveEmptyEntries);
+            string db = databaseUri.LocalPath.TrimStart('/');
+            string[] userInfo = databaseUri.UserInfo.Split(':', StringSplitOptions.RemoveEmptyEntries);
 
-            //return $"User ID={userInfo[0]};Password={userInfo[1]};Host={databaseUri.Host};Port={databaseUri.Port};Database={db};Pooling=true;SSL Mode=Require;Trust Server Certificate=True;";
+            string connectionUrl = $"User ID={userInfo[0]};Password={userInfo[1]};Host={databaseUri.Host};Port={databaseUri.Port};Database={db};Pooling=true;SSL Mode=Require;Trust Server Certificate=True;";
+            return connectionUrl;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
