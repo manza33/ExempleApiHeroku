@@ -18,5 +18,5 @@ jobs:
         run: |
           cd ./src/Catalog 
           docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-          heroku container:push web -a $APP_NAME --arg CONNECTION_STRING=${{ secrets.CONNECTION_STRING }}
+          heroku container:push web -a $APP_NAME --env DATABASE_URL=${{ secrets.DATABASE_URL }}
           heroku container:release web -a $APP_NAME

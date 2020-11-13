@@ -3,6 +3,9 @@ version: '3.4'
 services:
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
+    environment:
+        - DATABASE_URL=Server=127.0.0.1;Port=5433;Userid=TripInNatura;Password=Trip_123;Database=Exempleapi_heroku_local;
     build:
-      context: .
+      context: .      
       dockerfile: src/Catalog/Api/Dockerfile
+      

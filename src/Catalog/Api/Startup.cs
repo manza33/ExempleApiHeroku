@@ -24,34 +24,28 @@ namespace Catalog.Api
         //}
 
 
-        public Startup(IWebHostEnvironment webHostEnvironment)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(webHostEnvironment.ContentRootPath)
+                .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{webHostEnvironment.EnvironmentName}.json", optional: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
-            WebHostEnvironment = webHostEnvironment;
+            Env = env;
         }
 
-        //public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
-        //{
-        //    Configuration = configuration;
-        //    WebHostEnvironment = webHostEnvironment;
-        //}
-
         public IConfiguration Configuration { get; }
-        public IWebHostEnvironment WebHostEnvironment { get; }
+        public IWebHostEnvironment Env { get; }
 
         private string GetHerokuConnectionString(string connectionString)
         {
-
-            string connectionUrl = WebHostEnvironment.IsDevelopment()
-                ? Configuration.GetConnectionString("ExempleApiHeroku")
-                : Environment.GetEnvironmentVariable(connectionString);
-
+            string connectionUrl = Environment.GetEnvironmentVariable(connectionString);
             return connectionUrl;
+
+            //string connectionUrl = Env.IsDevelopment()
+            //    ? Configuration.GetConnectionString("ExempleApiHeroku")
+            //    : Environment.GetEnvironmentVariable(connectionString);
             //var databaseUri = new Uri(connectionUrl);
 
             //string db = databaseUri.LocalPath.TrimStart('/');
@@ -65,15 +59,13 @@ namespace Catalog.Api
         {
             services.AddControllers();
 
-            var test = Configuration.GetConnectionString("ExempleApiHeroku");
-
+            var dbUrl = GetHerokuConnectionString("DATABASE_URL");
             // Définition de l'injection (ICatalog correspond a CatalogRepo)
             services.AddTransient<ICatalogRepository>(service => new CatalogRepository(
-                //Configuration.GetConnectionString("ExempleApiHeroku")
-                GetHerokuConnectionString("CONNECTION_STRING")                
+            //Configuration.GetConnectionString("ExempleApiHeroku")
+            dbUrl            
 
             ));
-
 
             services.AddSwaggerGen(
                 c => {
@@ -95,13 +87,12 @@ namespace Catalog.Api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
 
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            logger.LogInformation($"Variable : {GetHerokuConnectionString("CONNECTION_STRING")}");
+            //logger.LogInformation($"Variable : {GetHerokuConnectionString("CONNECTION_STRING")}");
 
             app.UseSwagger();
             app.UseSwaggerUI(
