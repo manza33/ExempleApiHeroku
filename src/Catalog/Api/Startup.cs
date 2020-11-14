@@ -15,15 +15,6 @@ namespace Catalog.Api
 {
     public class Startup
     {
-        //public Startup(IWebHostEnvironment webHostEnvironment)
-        //{
-        //    var builder = new ConfigurationBuilder().AddEnvironmentVariables();
-        //    builder.AddUserSecrets<Startup>();
-        //    Configuration = builder.Build();
-        //    WebHostEnvironment = webHostEnvironment;
-        //}
-
-
         public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -40,13 +31,10 @@ namespace Catalog.Api
 
         private string GetHerokuConnectionString(string connectionString)
         {
-            //string connectionUrl = Environment.GetEnvironmentVariable(connectionString);
-            //string connectionUrl = Env.IsDevelopment()
-            //    ? Configuration.GetConnectionString("ExempleApiHeroku")
-            //    : Environment.GetEnvironmentVariable(connectionString);
             if (Env.IsDevelopment())
             {
-                return Environment.GetEnvironmentVariable(connectionString);
+                //return Environment.GetEnvironmentVariable(connectionString);
+                return Configuration.GetConnectionString("ExempleApiHeroku");
             }
             else
             {
@@ -65,11 +53,8 @@ namespace Catalog.Api
             services.AddControllers();
 
             var dbUrl = GetHerokuConnectionString("ENV_DATABASE_URL");
-            // Définition de l'injection (ICatalog correspond a CatalogRepo)
             services.AddTransient<ICatalogRepository>(service => new CatalogRepository(
-            //Configuration.GetConnectionString("ExempleApiHeroku")
-            dbUrl            
-
+                dbUrl
             ));
 
             services.AddSwaggerGen(
