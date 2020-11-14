@@ -36,14 +36,6 @@ namespace Catalog.Api.Controllers
         {
             return _catalogRepository.GetAllCategories();
         }
-
-        [HttpGet("env")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public string GetEnv()
-        {
-            return Environment.GetEnvironmentVariable("ENV_DATABASE_URL");
-        }
     }
 }
 
