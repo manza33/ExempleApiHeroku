@@ -97,7 +97,7 @@ namespace Catalog.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            //logger.LogInformation($"Variable : {GetHerokuConnectionString("CONNECTION_STRING")}");
+            logger.LogWarning($"Variable : {Environment.GetEnvironmentVariable("ENV_DATABASE_URL")}");
 
             app.UseSwagger();
             app.UseSwaggerUI(
