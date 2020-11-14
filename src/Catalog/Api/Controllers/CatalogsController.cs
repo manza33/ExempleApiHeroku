@@ -3,6 +3,7 @@ using Catalog.Domain.Items;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 
 namespace Catalog.Api.Controllers
@@ -34,6 +35,14 @@ namespace Catalog.Api.Controllers
         public IEnumerable<Category> GetAllCategories()
         {
             return _catalogRepository.GetAllCategories();
+        }
+
+        [HttpGet("env")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public string GetEnv()
+        {
+            return Environment.GetEnvironmentVariable("ENV_DATABASE_URL");
         }
     }
 }

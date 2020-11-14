@@ -1,8 +1,6 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 ARG DATABASE_URL
 ENV ENV_DATABASE_URL = $DATABASE_URL
-RUN echo "Variable URI: $DATABASE_URL" 
-RUN echo "Variable URI: $ENV_DATABASE_URL" 
 WORKDIR /app
 
 COPY ["Api/Catalog.Api.xml", "./"]
