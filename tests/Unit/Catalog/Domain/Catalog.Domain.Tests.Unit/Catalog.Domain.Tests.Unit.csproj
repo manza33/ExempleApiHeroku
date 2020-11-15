@@ -16,7 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\src\Catalog\Api\Catalog.Api.csproj" />
     <ProjectReference Include="..\..\..\..\..\src\Catalog\Domain\Catalog.Domain.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Catalog.Infrastructure.Tests.Unit\Catalog.Infrastructure.Tests.Unit.csproj" />
+    <ProjectReference Include="..\..\..\..\..\src\Catalog\Infrastructure\Catalog.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
