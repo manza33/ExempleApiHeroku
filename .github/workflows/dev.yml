@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ExempleApiHeroku/tests/Unit/Catalog/
+        working-directory: ExempleApiHeroku/src/Catalog
     steps:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
@@ -30,6 +30,6 @@ jobs:
           dotnet-version: 3.1.402
       - name: Unit tests of Catalog
         run: |
-          dotnet test ./Api/Catalog.Api.Tests.Unit/Catalog.Api.Tests.Unit.csproj
-          dotnet test ./Domain/Catalog.Domain.Tests.Unit/Catalog.Domain.Tests.Unit.csproj
-          dotnet test ./Infrastructure/Catalog.Infrastructure.Tests.Unit/Catalog.Infrastructure.Tests.Unit.csproj
+          dotnet test tests/Unit/Catalog/Api/Catalog.Api.Tests.Unit/Catalog.Api.Tests.Unit.csproj
+          dotnet test tests/Unit/Catalog/Domain/Catalog.Domain.Tests.Unit/Catalog.Domain.Tests.Unit.csproj
+          dotnet test tests/Unit/Catalog/Infrastructure/Catalog.Infrastructure.Tests.Unit/Catalog.Infrastructure.Tests.Unit.csproj
