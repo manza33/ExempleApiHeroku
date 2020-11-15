@@ -6,30 +6,36 @@ on:
       - dev
 
 jobs:
-#  build_catalog:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v1
-#      - name: Build the Docker image of Catalog
-#        env:
-#          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }} # Variable ajouté dans github
-#          APP_NAME: ${{ 'exempleapi-heroku' }} # Nom de l'application heroku
-#        run: |
-#          cd ./src/Catalog 
-#          docker build -f Dockerfile .
-
-  unit_test_catalog:
-    runs-on: ubuntu-latest
-#    defaults:
-#      run:
-#        working-directory: src/Catalog
+  build_and_test_catalog:
+    runs-on: ubuntu-latest    
     steps:
+      - uses: actions/checkout@v1
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.402
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build ./src/Catalog/Api/Catalog.Api.csproj --no-restore
       - name: Unit tests of Catalog
         run: |
-          dotnet test ./tests/Unit/Catalog/Api/Catalog.Api.Tests.Unit/Catalog.Api.Tests.Unit.csproj
+          dotnet test ./tests/Unit/Catalog/Api/Catalog.Api.Tests.Unit/Catalog.Api.Tests.Unit.csproj --no-restore --verbosity normal
           dotnet test ./tests/Unit/Catalog/Domain/Catalog.Domain.Tests.Unit/Catalog.Domain.Tests.Unit.csproj
           dotnet test ./tests/Unit/Catalog/Infrastructure/Catalog.Infrastructure.Tests.Unit/Catalog.Infrastructure.Tests.Unit.csproj
+
+
+
+  docker_build_catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build the Docker image of Catalog
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }} # Variable ajouté dans github
+          APP_NAME: ${{ 'exempleapi-heroku' }} # Nom de l'application heroku
+        run: |
+          cd ./src/Catalog 
+          docker build -f Dockerfile .
+
+  
