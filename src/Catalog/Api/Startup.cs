@@ -15,21 +15,46 @@ namespace Catalog.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IWebHostEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+            Env = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Env { get; }
+
+        private string GetHerokuConnectionString(string connectionString)
+        {
+            if (Env.IsDevelopment())
+            {
+                //return Environment.GetEnvironmentVariable(connectionString);
+                return Configuration.GetConnectionString("ExempleApiHeroku");
+            }
+            else
+            {
+                var databaseUri = new Uri(Environment.GetEnvironmentVariable(connectionString).Replace("\"", ""));
+
+                string db = databaseUri.LocalPath.TrimStart('/');
+                string[] userInfo = databaseUri.UserInfo.Split(':', StringSplitOptions.RemoveEmptyEntries);
+
+                return $"User ID={userInfo[0]};Password={userInfo[1]};Host={databaseUri.Host};Port={databaseUri.Port};Database={db};Pooling=true;SSL Mode=Require;Trust Server Certificate=True;";
+            }
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
-            // Définition de l'injection (ICatalog correspond a CatalogRepo)
+            var dbUrl = GetHerokuConnectionString("ENV_DATABASE_URL");
             services.AddTransient<ICatalogRepository>(service => new CatalogRepository(
-                Configuration.GetConnectionString("ExempleApiHeroku")                
+                dbUrl
             ));
 
             services.AddSwaggerGen(
@@ -49,12 +74,15 @@ namespace Catalog.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            logger.LogWarning($"Variable : {Environment.GetEnvironmentVariable("ENV_DATABASE_URL")}");
 
             app.UseSwagger();
             app.UseSwaggerUI(

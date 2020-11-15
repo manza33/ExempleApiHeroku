@@ -3,6 +3,7 @@ using Catalog.Domain.Items;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 
 namespace Catalog.Api.Controllers
