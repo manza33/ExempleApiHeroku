@@ -25,7 +25,7 @@ jobs:
 
       - name: Unit tests of Catalog
         run: |
-          cd ./src/Catalog 
-          dotnet test ./Api/Catalog.Api.Tests.Unit.csproj
-          dotnet test ./Domain/Catalog.Domain.Tests.Unit.csproj
-          dotnet test ./Infrastructure/Catalog.Infrastructure.Tests.Unit.csproj
+          cd ./tests/Unit/Catalog 
+          dotnet test ./Api/Catalog.Api.Tests.Unit/Catalog.Api.Tests.Unit.csproj
+          dotnet test ./Domain/Catalog.Domain.Tests.Unit/Catalog.Domain.Tests.Unit.csproj
+          dotnet test ./Infrastructure/Catalog.Infrastructure.Tests.Unit/Catalog.Infrastructure.Tests.Unit.csproj
