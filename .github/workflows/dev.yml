@@ -10,11 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 3.0.100
-
       - name: Build the Docker image of Catalog
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }} # Variable ajouté dans github
@@ -23,9 +18,14 @@ jobs:
           cd ./src/Catalog 
           docker build -f Dockerfile .
 
-      - name: Unit tests of Catalog
-        run: |
-          cd ./tests/Unit/Catalog 
-          dotnet test ./Api/Catalog.Api.Tests.Unit/Catalog.Api.Tests.Unit.csproj
-          dotnet test ./Domain/Catalog.Domain.Tests.Unit/Catalog.Domain.Tests.Unit.csproj
-          dotnet test ./Infrastructure/Catalog.Infrastructure.Tests.Unit/Catalog.Infrastructure.Tests.Unit.csproj
+  unit_test_catalog:
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.402
+    - name: Unit tests of Catalog
+      run: |
+        cd ./tests/Unit/Catalog 
+        dotnet test ./Api/Catalog.Api.Tests.Unit/Catalog.Api.Tests.Unit.csproj
+        dotnet test ./Domain/Catalog.Domain.Tests.Unit/Catalog.Domain.Tests.Unit.csproj
+        dotnet test ./Infrastructure/Catalog.Infrastructure.Tests.Unit/Catalog.Infrastructure.Tests.Unit.csproj
